@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+/* ─── Sony Dark Theme Tokens ─── */
+:root {
+  --background: #06070d;
+  --foreground: #e8eaf0;
+  --sony-blue: #003087;
+  --sony-blue-light: #0050d4;
+  --electric-blue: #00aaff;
+  --sony-dark: #0a0c18;
+  --card-bg: #0d1020;
+  --card-border: rgba(255, 255, 255, 0.06);
+  --card-hover: rgba(255, 255, 255, 0.03);
+  --accent-amber: #f59e0b;
+  --accent-emerald: #10b981;
+  --accent-rose: #f43f5e;
+  --accent-violet: #8b5cf6;
+  --text-muted: #64748b;
+  --text-secondary: #94a3b8;
+  --grid-color: rgba(255, 255, 255, 0.025);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-sony-blue: var(--sony-blue);
+  --color-sony-blue-light: var(--sony-blue-light);
+  --color-electric-blue: var(--electric-blue);
+  --color-sony-dark: var(--sony-dark);
+  --color-card-bg: var(--card-bg);
+  --color-card-border: var(--card-border);
+  --color-card-hover: var(--card-hover);
+  --color-accent-amber: var(--accent-amber);
+  --color-accent-emerald: var(--accent-emerald);
+  --color-accent-rose: var(--accent-rose);
+  --color-accent-violet: var(--accent-violet);
+  --color-text-muted: var(--text-muted);
+  --color-text-secondary: var(--text-secondary);
+  --font-sans: 'Inter', var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', var(--font-geist-mono), monospace;
+}
+
+/* ─── Base Styles ─── */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+/* ─── Grid Background Pattern ─── */
+.bg-grid-pattern {
+  background-image:
+    linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* ─── Glassmorphism Card ─── */
+.glass-card {
+  background: linear-gradient(135deg, rgba(13, 16, 32, 0.8), rgba(13, 16, 32, 0.6));
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(13, 16, 32, 0.9), rgba(13, 16, 32, 0.7));
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+/* ─── KPI Card Glow Effects ─── */
+.kpi-glow-blue {
+  box-shadow: 0 0 60px -12px rgba(0, 170, 255, 0.15);
+}
+
+.kpi-glow-amber {
+  box-shadow: 0 0 60px -12px rgba(245, 158, 11, 0.15);
+}
+
+.kpi-glow-emerald {
+  box-shadow: 0 0 60px -12px rgba(16, 185, 129, 0.15);
+}
+
+.kpi-glow-violet {
+  box-shadow: 0 0 60px -12px rgba(139, 92, 246, 0.15);
+}
+
+/* ─── Sidebar ─── */
+.sidebar-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  color: var(--text-muted);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.sidebar-item:hover {
+  color: var(--foreground);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.sidebar-item.active {
+  color: var(--electric-blue);
+  background: rgba(0, 170, 255, 0.08);
+}
+
+.sidebar-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  background: var(--electric-blue);
+  border-radius: 0 4px 4px 0;
+}
+
+/* ─── Animations ─── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+.animate-delay-100 { animation-delay: 100ms; }
+.animate-delay-200 { animation-delay: 200ms; }
+.animate-delay-300 { animation-delay: 300ms; }
+.animate-delay-400 { animation-delay: 400ms; }
+.animate-delay-500 { animation-delay: 500ms; }
+.animate-delay-600 { animation-delay: 600ms; }
+
+/* ─── Custom Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ─── Tremor Overrides (Dark Theme) ─── */
+.tremor-Card-root,
+[class*="tremor"] {
+  --tremor-background-default: var(--card-bg) !important;
+  --tremor-background-muted: rgba(255, 255, 255, 0.03) !important;
+  --tremor-border-default: var(--card-border) !important;
+  --tremor-content-default: var(--foreground) !important;
+  --tremor-content-emphasis: #ffffff !important;
+  --tremor-content-subtle: var(--text-muted) !important;
+}
+
+/* ─── Stat Number Styling ─── */
+.stat-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
