@@ -49,12 +49,12 @@ export default function OlapCubePage() {
           <div className="absolute top-6 left-6 z-10 w-80 animate-fade-in-up">
             <div className="glass-card p-6 !border-white/10 !bg-[#0a0c18]/80 backdrop-blur-xl shadow-2xl">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-electric-blue/20 flex items-center justify-center border border-electric-blue/30 text-electric-blue">
+                <div className="w-10 h-10 rounded-xl bg-lego-red/20 flex items-center justify-center border border-lego-red/30 text-lego-red">
                   <Box size={20} />
                 </div>
                 <div>
-                  <h2 className="text-white font-bold text-lg leading-tight">Global Sony Küpü</h2>
-                  <p className="text-electric-blue text-xs uppercase tracking-widest font-semibold mt-0.5">OLAP Analizi</p>
+                  <h2 className="text-white font-bold text-lg leading-tight">Global LEGO Küpü</h2>
+                  <p className="text-lego-red text-xs uppercase tracking-widest font-semibold mt-0.5">OLAP Analizi</p>
                 </div>
               </div>
 
@@ -70,7 +70,7 @@ export default function OlapCubePage() {
                 <div className="h-24 rounded-lg bg-black/40 border border-white/5 p-3 transition-colors duration-300">
                   {hoveredNode ? (
                     <div className="animate-fade-in-up">
-                      <p className="text-electric-blue text-xs font-mono mb-2 border-b border-white/10 pb-1 inline-block">
+                      <p className="text-lego-yellow text-xs font-mono mb-2 border-b border-white/10 pb-1 inline-block">
                         {hoveredNode.id.toUpperCase()}
                       </p>
                       <div className="flex justify-between items-end">
@@ -91,7 +91,7 @@ export default function OlapCubePage() {
                 </div>
               </div>
 
-              <button className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-accent-violet to-sony-blue-light hover:to-electric-blue text-white py-3 px-4 rounded-xl font-semibold text-sm transition-all shadow-[0_0_20px_rgba(139,92,246,0.3)] hover:shadow-[0_0_25px_rgba(0,170,255,0.4)]">
+              <button className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-lego-red to-lego-yellow text-white py-3 px-4 rounded-xl font-semibold text-sm transition-all shadow-[0_0_20px_rgba(227,0,11,0.3)] hover:shadow-[0_0_25px_rgba(255,213,0,0.4)]">
                 Drill Down <ArrowRight size={16} />
               </button>
             </div>
@@ -101,15 +101,15 @@ export default function OlapCubePage() {
           <div className="absolute bottom-6 left-6 z-10 animate-fade-in-up animate-delay-200">
             <div className="glass-card p-3 px-4 !bg-[#0a0c18]/80 backdrop-blur-xl border border-white/5 flex gap-6">
               <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-electric-blue shadow-[0_0_10px_#00aaff]" />
+                <span className="w-3 h-3 rounded-full bg-[#00B140] shadow-[0_0_10px_#00B140]" />
                 <span className="text-xs text-white/80 font-medium tracking-wide">Optimal</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-accent-amber shadow-[0_0_10px_#f59e0b]" />
+                <span className="w-3 h-3 rounded-full bg-[#FFD500] shadow-[0_0_10px_#FFD500]" />
                 <span className="text-xs text-white/80 font-medium tracking-wide">Dikkat</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-accent-rose shadow-[0_0_10px_#f43f5e] animate-pulse" />
+                <span className="w-3 h-3 rounded-full bg-[#E3000B] shadow-[0_0_10px_#E3000B] animate-pulse" />
                 <span className="text-xs text-white/80 font-medium tracking-wide">Kritik</span>
               </div>
             </div>

@@ -19,7 +19,7 @@ export function Scene({ nodes, onHoverNode }: SceneProps) {
     >
       <ambientLight intensity={0.7} />
       <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1.5} />
-      <pointLight position={[-10, -10, -10]} intensity={0.5} color="#00aaff" />
+      <pointLight position={[-10, -10, -10]} intensity={0.5} color="#E3000B" />
       
       <Environment preset="city" />
       <Stars radius={100} depth={50} count={3000} factor={4} saturation={0} fade speed={1} />
@@ -35,7 +35,7 @@ export function Scene({ nodes, onHoverNode }: SceneProps) {
         blur={2.5} 
         far={4} 
         resolution={256} 
-        color="#00aaff" 
+        color="#E3000B" 
       />
       
       <OrbitControls 

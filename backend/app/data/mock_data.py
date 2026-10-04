@@ -1,54 +1,45 @@
 """
-Sony Küresel Satış & İş Zekası — Mock Veri Seti
+LEGO Küresel Satış & İş Zekası — Mock Veri Seti
 ================================================
-PlayStation donanım satışları, PSN kullanıcı verileri ve
-departman gelirlerini simüle eden kapsamlı sahte veri seti.
+LEGO temalı satışlar, üye (Insiders) verileri ve
+kategori gelirlerini simüle eden veri seti.
 """
 
 import random
 import math
 from datetime import datetime, timedelta
 
-
 # ─────────────────────────────────────────────
-#  1) PlayStation Donanım Satışları (Bölgesel)
+#  1) Temel Satışlar (Bölgesel) -> Hardware Sales endpointini kullanır
 # ─────────────────────────────────────────────
 
-REGIONS = ["North America", "Europe", "Asia-Pacific", "Japan", "Rest of World"]
+REGIONS = ["Americas", "EMEA", "APAC"]
 
 PRODUCTS = [
-    {"name": "PS5 Standard", "base_price": 499.99},
-    {"name": "PS5 Digital Edition", "base_price": 399.99},
-    {"name": "PS VR2", "base_price": 549.99},
-    {"name": "DualSense Controller", "base_price": 69.99},
+    {"name": "Star Wars Millennium Falcon", "base_price": 849.99},
+    {"name": "Technic Porsche 911 GT3 RS", "base_price": 299.99},
+    {"name": "City Police Station", "base_price": 69.99},
+    {"name": "Ninjago City Gardens", "base_price": 349.99},
 ]
 
-# Bölge bazlı ağırlıklar (toplam satıştaki pay)
 REGION_WEIGHTS = {
-    "North America": 0.34,
-    "Europe": 0.28,
-    "Asia-Pacific": 0.18,
-    "Japan": 0.12,
-    "Rest of World": 0.08,
+    "Americas": 0.45,
+    "EMEA": 0.35,
+    "APAC": 0.20,
 }
 
-# Ürün bazlı temel birim satış (çeyreklik, küresel)
 PRODUCT_BASE_UNITS = {
-    "PS5 Standard": 3_200_000,
-    "PS5 Digital Edition": 2_400_000,
-    "PS VR2": 850_000,
-    "DualSense Controller": 5_500_000,
+    "Star Wars Millennium Falcon": 450_000,
+    "Technic Porsche 911 GT3 RS": 850_000,
+    "City Police Station": 3_500_000,
+    "Ninjago City Gardens": 1_200_000,
 }
-
 
 def _seasonal_factor(month: int) -> float:
-    """Mevsimsel satış çarpanı — Q4 (Ekim-Aralık) yüksek."""
-    # Sinüs dalgası ile doğal mevsimsellik
-    return 1.0 + 0.35 * math.sin((month - 3) * math.pi / 6)
-
+    # Q4 (Tatil dönemi) LEGO için çok yüksektir
+    return 1.0 + 0.6 * math.sin((month - 3) * math.pi / 6)
 
 def generate_hardware_sales() -> dict:
-    """Bölgesel PlayStation donanım satış verisi üretir."""
     months = []
     base_date = datetime(2025, 10, 1)
 
@@ -69,9 +60,9 @@ def generate_hardware_sales() -> dict:
             region_revenue = 0.0
 
             for product in PRODUCTS:
-                base = PRODUCT_BASE_UNITS[product["name"]] / 12  # Aylığa çevir
-                units = int(base * weight * seasonal * random.uniform(0.88, 1.12))
-                revenue = round(units * product["base_price"] / 1_000_000, 2)  # $M
+                base = PRODUCT_BASE_UNITS[product["name"]] / 12
+                units = int(base * weight * seasonal * random.uniform(0.9, 1.1))
+                revenue = round(units * product["base_price"] / 1_000_000, 2)
                 region_units += units
                 region_revenue += revenue
                 region_products.append({
@@ -80,7 +71,7 @@ def generate_hardware_sales() -> dict:
                     "revenue_million_usd": revenue,
                 })
 
-            yoy_growth = round(random.uniform(3.0, 18.5), 1)
+            yoy_growth = round(random.uniform(2.0, 15.0), 1)
             regions_data.append({
                 "region": region,
                 "units_sold": region_units,
@@ -98,13 +89,12 @@ def generate_hardware_sales() -> dict:
             "regions": regions_data,
         })
 
-    # En son ayın verileri özet olarak üst seviyeye
     latest = months[-1]
     return {
         "period": latest["month"],
         "total_units_sold": latest["total_units_sold"],
         "total_revenue_million_usd": latest["total_revenue_million_usd"],
-        "yoy_growth_pct": round(random.uniform(6.0, 14.0), 1),
+        "yoy_growth_pct": round(random.uniform(5.0, 12.0), 1),
         "regions": latest["regions"],
         "monthly_trend": [
             {
@@ -118,14 +108,13 @@ def generate_hardware_sales() -> dict:
 
 
 # ─────────────────────────────────────────────
-#  2) PSN Aylık Aktif Kullanıcı Verileri
+#  2) LEGO Insiders (PSN endpointini kullanır)
 # ─────────────────────────────────────────────
 
 def generate_psn_users() -> dict:
-    """PSN aylık aktif kullanıcı trend verisi üretir."""
-    base_mau = 108_000_000
-    base_ps_plus = 45_000_000
-    base_session = 2.1  # saat
+    base_mau = 35_000_000
+    base_ps_plus = 15_000_000 # Premium Members
+    base_session = 1.2
 
     monthly_trend = []
     base_date = datetime(2025, 10, 1)
@@ -135,12 +124,11 @@ def generate_psn_users() -> dict:
         month_str = current_date.strftime("%Y-%m")
         month_num = current_date.month
 
-        # Doğal büyüme + mevsimsellik
-        growth = 1 + (i * 0.008)  # %0.8 aylık organik büyüme
-        seasonal = 1.0 + 0.12 * math.sin((month_num - 1) * math.pi / 6)
+        growth = 1 + (i * 0.015)
+        seasonal = 1.0 + 0.1 * math.sin((month_num - 1) * math.pi / 6)
 
-        mau = int(base_mau * growth * seasonal * random.uniform(0.97, 1.03))
-        ps_plus = int(base_ps_plus * growth * random.uniform(0.96, 1.04))
+        mau = int(base_mau * growth * seasonal * random.uniform(0.95, 1.05))
+        ps_plus = int(base_ps_plus * growth * random.uniform(0.95, 1.05))
         session = round(base_session * seasonal * random.uniform(0.9, 1.1), 1)
 
         monthly_trend.append({
@@ -152,13 +140,10 @@ def generate_psn_users() -> dict:
 
     latest = monthly_trend[-1]
 
-    # Bölge bazlı dağılım
     region_breakdown = [
-        {"region": "North America", "mau": int(latest["mau"] * 0.32), "share_pct": 32.0},
-        {"region": "Europe", "mau": int(latest["mau"] * 0.30), "share_pct": 30.0},
-        {"region": "Asia-Pacific", "mau": int(latest["mau"] * 0.20), "share_pct": 20.0},
-        {"region": "Japan", "mau": int(latest["mau"] * 0.11), "share_pct": 11.0},
-        {"region": "Rest of World", "mau": int(latest["mau"] * 0.07), "share_pct": 7.0},
+        {"region": "Americas", "mau": int(latest["mau"] * 0.40), "share_pct": 40.0},
+        {"region": "EMEA", "mau": int(latest["mau"] * 0.40), "share_pct": 40.0},
+        {"region": "APAC", "mau": int(latest["mau"] * 0.20), "share_pct": 20.0},
     ]
 
     return {
@@ -174,51 +159,31 @@ def generate_psn_users() -> dict:
 
 
 # ─────────────────────────────────────────────
-#  3) Departman Gelir Dağılımı
+#  3) LEGO Kategorileri (Departments endpointini kullanır)
 # ─────────────────────────────────────────────
 
 DEPARTMENTS = [
     {
-        "name": "Game & Network Services",
-        "base_revenue": 29.1,
-        "profit_margin": 13.2,
-        "color": "#003087",
+        "name": "Licensed Sets",
+        "base_revenue": 4.5, # Billion USD
+        "profit_margin": 14.5,
+        "color": "#E3000B", # LEGO Red
     },
     {
-        "name": "Sony Music",
-        "base_revenue": 12.8,
-        "profit_margin": 18.5,
-        "color": "#e91e63",
+        "name": "Original Themes",
+        "base_revenue": 3.8,
+        "profit_margin": 22.0,
+        "color": "#FFD500", # LEGO Yellow
     },
     {
-        "name": "Sony Pictures",
-        "base_revenue": 11.2,
-        "profit_margin": 8.7,
-        "color": "#ff9800",
-    },
-    {
-        "name": "Imaging & Sensing",
-        "base_revenue": 10.9,
-        "profit_margin": 15.3,
-        "color": "#00bcd4",
-    },
-    {
-        "name": "Electronics & Solutions",
-        "base_revenue": 14.5,
-        "profit_margin": 6.1,
-        "color": "#8bc34a",
-    },
-    {
-        "name": "Financial Services",
-        "base_revenue": 10.2,
-        "profit_margin": 11.8,
-        "color": "#9c27b0",
+        "name": "Digital & Merch",
+        "base_revenue": 1.2,
+        "profit_margin": 18.2,
+        "color": "#00B140", # LEGO Green
     },
 ]
 
-
 def generate_department_revenue() -> dict:
-    """Departman bazlı gelir dağılımı verisi üretir."""
     departments_data = []
     total_revenue = 0.0
 
@@ -236,7 +201,7 @@ def generate_department_revenue() -> dict:
         annual_revenue = round(sum(q["revenue_billion_usd"] for q in quarterly_trend), 2)
         total_revenue += annual_revenue
 
-        qoq_change = round(random.uniform(-5.0, 12.0), 1)
+        qoq_change = round(random.uniform(-2.0, 15.0), 1)
         profit_margin = round(dept["profit_margin"] * random.uniform(0.9, 1.1), 1)
 
         departments_data.append({
@@ -248,7 +213,6 @@ def generate_department_revenue() -> dict:
             "quarterly_trend": quarterly_trend,
         })
 
-    # Pay oranlarını hesapla
     for dept in departments_data:
         dept["share_pct"] = round(
             (dept["revenue_billion_usd"] / total_revenue) * 100, 1
@@ -257,66 +221,56 @@ def generate_department_revenue() -> dict:
     return {
         "fiscal_year": "FY2026",
         "total_revenue_billion_usd": round(total_revenue, 2),
-        "yoy_growth_pct": round(random.uniform(3.0, 9.5), 1),
+        "yoy_growth_pct": round(random.uniform(4.0, 11.0), 1),
         "departments": departments_data,
     }
 
 
 # ─────────────────────────────────────────────
-#  Önbellek — Sunucu başlatıldığında bir kez üretilir
-# ─────────────────────────────────────────────
-
-random.seed(42)  # Tutarlı veri için sabit seed
-
-HARDWARE_SALES_DATA = generate_hardware_sales()
-PSN_USERS_DATA = generate_psn_users()
-DEPARTMENT_REVENUE_DATA = generate_department_revenue()
-
-
-# ─────────────────────────────────────────────
-#  4) 3D OLAP Cube Data
+#  4) 3D OLAP Cube Data (LEGO Matrix)
 # ─────────────────────────────────────────────
 
 def generate_olap_cube() -> dict:
-    regions = ["North America", "Europe", "Japan"]
+    regions = ["Americas", "EMEA", "APAC"]
     years = ["2023", "2024", "2025"]
-    categories = ["Hardware", "Software", "Services"]
+    categories = ["Licensed Sets", "Original Themes", "Digital & Merch"]
     
     nodes = []
     total_rev = 0.0
     
-    # 3x3x3 = 27 nodes
     for y_idx, region in enumerate(regions):
         for x_idx, year in enumerate(years):
             for z_idx, category in enumerate(categories):
-                # Koordinatlar: -1, 0, 1
                 coords = [x_idx - 1, y_idx - 1, z_idx - 1]
                 
-                # Rastgele ama tutarlı veriler
-                rev = round(random.uniform(5.0, 30.0), 1)
+                rev = round(random.uniform(0.5, 3.5), 2) # Billion USD
                 total_rev += rev
                 
-                # Statü belirleme
-                if rev > 20.0:
+                if rev > 2.5:
                     status = "optimal"
-                elif rev > 10.0:
+                elif rev > 1.5:
                     status = "warning"
                 else:
                     status = "critical"
                     
                 nodes.append({
-                    "id": f"node-{x_idx}-{y_idx}-{z_idx}",
+                    "id": f"{region[:2].lower()}-{year[-2:]}-{category.split()[0].lower()}",
                     "region": region,
                     "year": year,
                     "category": category,
-                    "revenue_million_usd": rev * 1000, # milyon olarak göster
+                    "revenue_million_usd": rev * 1000, 
                     "status": status,
                     "coordinates": coords
                 })
                 
     return {
         "nodes": nodes,
-        "total_revenue_billion": round(total_rev, 1)
+        "total_revenue_billion": round(total_rev, 2)
     }
 
+random.seed(42)
+
+HARDWARE_SALES_DATA = generate_hardware_sales()
+PSN_USERS_DATA = generate_psn_users()
+DEPARTMENT_REVENUE_DATA = generate_department_revenue()
 OLAP_CUBE_DATA = generate_olap_cube()

@@ -72,8 +72,8 @@ export default function DashboardPage() {
     return num.toString();
   };
 
-  const REGIONS = ["North America", "Europe", "Asia-Pacific", "Japan", "Rest of World"];
-  const DEPARTMENTS = ["Game & Network Services", "Sony Music", "Sony Pictures", "Imaging & Sensing", "Electronics & Solutions", "Financial Services"];
+  const REGIONS = ["Americas", "EMEA", "APAC"];
+  const DEPARTMENTS = ["Licensed Sets", "Original Themes", "Digital & Merch"];
 
   return (
     <div className="flex min-h-screen bg-background bg-grid-pattern">
@@ -87,37 +87,37 @@ export default function DashboardPage() {
         <main className="flex-1 p-4 lg:p-8 space-y-6 lg:space-y-8 overflow-y-auto">
           
           {/* ─── Interactive Filter Bar ─── */}
-          <div className="glass-card p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-fade-in-up hover:border-electric-blue/30 transition-colors duration-300">
+          <div className="glass-card p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-fade-in-up hover:border-lego-red/30 transition-colors duration-300">
             <div className="flex items-center gap-2 text-text-muted">
-              <Filter size={18} className="text-electric-blue" />
+              <Filter size={18} className="text-lego-red" />
               <span className="text-sm font-medium uppercase tracking-wider text-white/90">Akıllı Filtreler</span>
             </div>
             
             <div className="flex flex-wrap items-center gap-3">
               <div className="relative group">
                 <select 
-                  className="appearance-none bg-white/5 hover:bg-white/10 border border-white/10 hover:border-electric-blue/50 rounded-lg pl-3 pr-8 py-1.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-electric-blue/20 transition-all duration-200 cursor-pointer"
+                  className="appearance-none bg-white/5 hover:bg-white/10 border border-white/10 hover:border-lego-red/50 rounded-lg pl-3 pr-8 py-1.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-lego-red/20 transition-all duration-200 cursor-pointer"
                   value={regionFilter}
                   onChange={(e) => setRegionFilter(e.target.value)}
                 >
                   <option value="" className="bg-sony-dark text-white">🌍 Tüm Bölgeler</option>
                   {REGIONS.map(r => <option key={r} value={r} className="bg-sony-dark text-white">{r}</option>)}
                 </select>
-                <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-text-muted group-hover:text-electric-blue transition-colors">
+                <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-text-muted group-hover:text-lego-red transition-colors">
                   ▼
                 </div>
               </div>
               
               <div className="relative group">
                 <select 
-                  className="appearance-none bg-white/5 hover:bg-white/10 border border-white/10 hover:border-electric-blue/50 rounded-lg pl-3 pr-8 py-1.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-electric-blue/20 transition-all duration-200 cursor-pointer"
+                  className="appearance-none bg-white/5 hover:bg-white/10 border border-white/10 hover:border-lego-yellow/50 rounded-lg pl-3 pr-8 py-1.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-lego-yellow/20 transition-all duration-200 cursor-pointer"
                   value={deptFilter}
                   onChange={(e) => setDeptFilter(e.target.value)}
                 >
-                  <option value="" className="bg-sony-dark text-white">🏢 Tüm Departmanlar</option>
+                  <option value="" className="bg-sony-dark text-white">🏢 Tüm Kategoriler</option>
                   {DEPARTMENTS.map(d => <option key={d} value={d} className="bg-sony-dark text-white">{d}</option>)}
                 </select>
-                <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-text-muted group-hover:text-electric-blue transition-colors">
+                <div className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-text-muted group-hover:text-lego-yellow transition-colors">
                   ▼
                 </div>
               </div>
@@ -144,23 +144,23 @@ export default function DashboardPage() {
                     value={`$${revenueData.total_revenue_billion_usd.toFixed(1)}B`}
                     change={revenueData.yoy_growth_pct}
                     changeLabel="yıllık büyüme"
-                    icon={<DollarSign size={20} className="text-electric-blue" />}
+                    icon={<DollarSign size={20} className="text-lego-red" />}
                     glowClass="kpi-glow-blue"
-                    accentColor="#00aaff"
+                    accentColor="#E3000B"
                     delay="animate-delay-100"
                   />
                   <KpiCard
-                    title="PS5 Satışları"
+                    title="Satılan LEGO Setleri"
                     value={formatLargeNumber(salesData.total_units_sold)}
                     change={salesData.yoy_growth_pct}
                     changeLabel="YoY büyüme"
                     icon={<Gamepad2 size={20} className="text-accent-amber" />}
                     glowClass="kpi-glow-amber"
-                    accentColor="#f59e0b"
+                    accentColor="#FFD500"
                     delay="animate-delay-200"
                   />
                   <KpiCard
-                    title="PSN Aktif Kullanıcı"
+                    title="LEGO Insiders"
                     value={formatLargeNumber(usersData.current_mau)}
                     change={usersData.mau_growth_pct}
                     changeLabel="12 aylık büyüme"
@@ -170,7 +170,7 @@ export default function DashboardPage() {
                     delay="animate-delay-300"
                   />
                   <KpiCard
-                    title="PS Plus Abone"
+                    title="Premium Üyeler"
                     value={formatLargeNumber(usersData.ps_plus_subscribers)}
                     change={8.4}
                     changeLabel="yıllık büyüme"
@@ -202,8 +202,8 @@ export default function DashboardPage() {
           {/* ─── Footer ─── */}
           <footer className="text-center py-6 border-t border-white/5 mt-8">
             <p className="text-text-muted text-xs transition-colors hover:text-white/70">
-              Sony Intelligence Dashboard — YBS Dersi Projesi © 2026 ·{" "}
-              <span className="text-electric-blue font-medium hover:underline cursor-pointer">Decoupled Architecture</span>{" "}
+              LEGO Intelligence Dashboard — YBS Dersi Projesi © 2026 ·{" "}
+              <span className="text-lego-red font-medium hover:underline cursor-pointer">Decoupled Architecture</span>{" "}
               · FastAPI + Next.js
             </p>
           </footer>

@@ -20,8 +20,8 @@ import { usePathname } from "next/navigation";
 const menuItems = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/" },
   { icon: Box, label: "3D OLAP Küpü", href: "/olap-cube" },
-  { icon: Gamepad2, label: "PlayStation Satışları", href: "#" },
-  { icon: Users, label: "PSN Kullanıcıları", href: "#" },
+  { icon: Gamepad2, label: "LEGO Temaları", href: "#" },
+  { icon: Users, label: "LEGO Insiders", href: "#" },
   { icon: DollarSign, label: "Gelir Analizi", href: "#" },
   { icon: BarChart3, label: "Raporlar", href: "#" },
 ];
@@ -49,13 +49,13 @@ export default function Sidebar() {
     >
       {/* Logo */}
       <div className="flex items-center gap-3 px-5 py-6 border-b border-white/5">
-        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-electric-blue to-sony-blue flex items-center justify-center flex-shrink-0">
-          <span className="text-white font-bold text-sm">S</span>
+        <div className="w-9 h-9 rounded-xl bg-lego-red flex items-center justify-center flex-shrink-0 shadow-[0_0_15px_rgba(227,0,11,0.5)]">
+          <span className="text-white font-bold text-sm">L</span>
         </div>
         {!collapsed && (
           <div className="overflow-hidden">
             <h1 className="text-white font-bold text-base tracking-tight leading-none">
-              SONY
+              LEGO
             </h1>
             <p className="text-text-muted text-[10px] tracking-widest uppercase mt-0.5">
               Intelligence

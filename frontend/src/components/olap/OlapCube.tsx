@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Text, Billboard } from "@react-three/drei";
-import { CubeCell } from "./CubeCell";
+import { LegoBrick } from "./LegoBrick";
 import type { CubeNode } from "@/types";
 import * as THREE from "three";
 
@@ -65,11 +65,11 @@ export function OlapCube({ nodes, onHoverNode }: OlapCubeProps) {
     <group rotation={[0, Math.PI / 4, 0]}>
       {/* Cells */}
       {nodes.map((node, i) => (
-        <CubeCell 
+        <LegoBrick 
           key={node.id} 
           node={node} 
           onHover={onHoverNode}
-          delay={i * 0.02} 
+          delay={i * 0.03} 
         />
       ))}
 
@@ -85,11 +85,11 @@ export function OlapCube({ nodes, onHoverNode }: OlapCubeProps) {
           </Text>
         </Billboard>
         {[
-          { y: -1, label: "Japonya" },
-          { y: 0, label: "Avrupa" },
-          { y: 1, label: "K. Amerika" },
+          { y: -1, label: "APAC" },
+          { y: 0, label: "EMEA" },
+          { y: 1, label: "Americas" },
         ].map((item) => (
-          <group key={item.label} position={[-axisOffset, item.y, axisOffset]}>
+          <group key={item.label} position={[-axisOffset, item.y * 1.05, axisOffset]}>
             <mesh position={[0.1, 0, 0]}>
               <boxGeometry args={[0.2, 0.01, 0.01]} />
               <meshBasicMaterial color={tickColor} transparent opacity={0.3} />
@@ -119,7 +119,7 @@ export function OlapCube({ nodes, onHoverNode }: OlapCubeProps) {
           { x: 0, label: "2024" },
           { x: 1, label: "2025" },
         ].map((item) => (
-          <group key={item.label} position={[item.x, -axisOffset, axisOffset]}>
+          <group key={item.label} position={[item.x * 1.05, -axisOffset, axisOffset]}>
             <mesh position={[0, 0.1, 0]}>
               <boxGeometry args={[0.01, 0.2, 0.01]} />
               <meshBasicMaterial color={tickColor} transparent opacity={0.3} />
@@ -145,11 +145,11 @@ export function OlapCube({ nodes, onHoverNode }: OlapCubeProps) {
           </Text>
         </Billboard>
         {[
-          { z: -1, label: "Services" },
-          { z: 0, label: "Software" },
-          { z: 1, label: "Hardware" },
+          { z: -1, label: "Dijital & Ürünler" },
+          { z: 0, label: "Özgün Temalar" },
+          { z: 1, label: "Lisanslı Setler" },
         ].map((item) => (
-          <group key={item.label} position={[axisOffset, -axisOffset, item.z]}>
+          <group key={item.label} position={[axisOffset, -axisOffset, item.z * 1.05]}>
             <mesh position={[0, 0.1, 0]}>
               <boxGeometry args={[0.01, 0.2, 0.01]} />
               <meshBasicMaterial color={tickColor} transparent opacity={0.3} />
