@@ -28,16 +28,19 @@ async function fetchAPI<T>(endpoint: string): Promise<T> {
 }
 
 /** PlayStation donanım satış verileri */
-export async function getHardwareSales(): Promise<HardwareSalesResponse> {
-  return fetchAPI<HardwareSalesResponse>("/api/v1/sales/hardware");
+export async function getHardwareSales(region?: string): Promise<HardwareSalesResponse> {
+  const query = region ? `?region=${encodeURIComponent(region)}` : "";
+  return fetchAPI<HardwareSalesResponse>(`/api/v1/sales/hardware${query}`);
 }
 
 /** PSN aylık aktif kullanıcı verileri */
-export async function getPSNUsers(): Promise<PSNUsersResponse> {
-  return fetchAPI<PSNUsersResponse>("/api/v1/users/psn-monthly");
+export async function getPSNUsers(region?: string): Promise<PSNUsersResponse> {
+  const query = region ? `?region=${encodeURIComponent(region)}` : "";
+  return fetchAPI<PSNUsersResponse>(`/api/v1/users/psn-monthly${query}`);
 }
 
 /** Departman gelir dağılımı verileri */
-export async function getDepartmentRevenue(): Promise<DepartmentRevenueResponse> {
-  return fetchAPI<DepartmentRevenueResponse>("/api/v1/revenue/departments");
+export async function getDepartmentRevenue(department?: string): Promise<DepartmentRevenueResponse> {
+  const query = department ? `?department=${encodeURIComponent(department)}` : "";
+  return fetchAPI<DepartmentRevenueResponse>(`/api/v1/revenue/departments${query}`);
 }
