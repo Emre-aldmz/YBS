@@ -271,3 +271,52 @@ random.seed(42)  # Tutarlı veri için sabit seed
 HARDWARE_SALES_DATA = generate_hardware_sales()
 PSN_USERS_DATA = generate_psn_users()
 DEPARTMENT_REVENUE_DATA = generate_department_revenue()
+
+
+# ─────────────────────────────────────────────
+#  4) 3D OLAP Cube Data
+# ─────────────────────────────────────────────
+
+def generate_olap_cube() -> dict:
+    regions = ["North America", "Europe", "Japan"]
+    years = ["2023", "2024", "2025"]
+    categories = ["Hardware", "Software", "Services"]
+    
+    nodes = []
+    total_rev = 0.0
+    
+    # 3x3x3 = 27 nodes
+    for y_idx, region in enumerate(regions):
+        for x_idx, year in enumerate(years):
+            for z_idx, category in enumerate(categories):
+                # Koordinatlar: -1, 0, 1
+                coords = [x_idx - 1, y_idx - 1, z_idx - 1]
+                
+                # Rastgele ama tutarlı veriler
+                rev = round(random.uniform(5.0, 30.0), 1)
+                total_rev += rev
+                
+                # Statü belirleme
+                if rev > 20.0:
+                    status = "optimal"
+                elif rev > 10.0:
+                    status = "warning"
+                else:
+                    status = "critical"
+                    
+                nodes.append({
+                    "id": f"node-{x_idx}-{y_idx}-{z_idx}",
+                    "region": region,
+                    "year": year,
+                    "category": category,
+                    "revenue_million_usd": rev * 1000, # milyon olarak göster
+                    "status": status,
+                    "coordinates": coords
+                })
+                
+    return {
+        "nodes": nodes,
+        "total_revenue_billion": round(total_rev, 1)
+    }
+
+OLAP_CUBE_DATA = generate_olap_cube()

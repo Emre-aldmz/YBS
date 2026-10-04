@@ -7,6 +7,7 @@ import type {
   HardwareSalesResponse,
   PSNUsersResponse,
   DepartmentRevenueResponse,
+  CubeResponse,
 } from "@/types";
 
 const API_BASE_URL =
@@ -44,3 +45,9 @@ export async function getDepartmentRevenue(department?: string): Promise<Departm
   const query = department ? `?department=${encodeURIComponent(department)}` : "";
   return fetchAPI<DepartmentRevenueResponse>(`/api/v1/revenue/departments${query}`);
 }
+
+/** 3D OLAP Küp Verisi */
+export async function getOlapCube(): Promise<CubeResponse> {
+  return fetchAPI<CubeResponse>("/api/v1/olap-cube");
+}
+

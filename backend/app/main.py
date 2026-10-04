@@ -7,7 +7,7 @@ Ana uygulama giriş noktası. CORS yapılandırması ve router kayıtları.
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import sales, users, revenue
+from app.routers import sales, users, revenue, cube
 from app.models import APIInfo
 
 app = FastAPI(
@@ -32,6 +32,7 @@ app.add_middleware(
 app.include_router(sales.router)
 app.include_router(users.router)
 app.include_router(revenue.router)
+app.include_router(cube.router)
 
 
 # ─── Root Endpoint ───
@@ -46,6 +47,7 @@ async def root():
             "/api/v1/sales/hardware",
             "/api/v1/users/psn-monthly",
             "/api/v1/revenue/departments",
+            "/api/v1/olap-cube",
             "/docs",
         ],
     )

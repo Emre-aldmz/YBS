@@ -78,3 +78,20 @@ export interface DepartmentRevenueResponse {
   yoy_growth_pct: number;
   departments: DepartmentRevenue[];
 }
+
+// ─── OLAP Cube ───
+
+export interface CubeNode {
+  id: string;
+  region: string;
+  year: string;
+  category: string;
+  revenue_million_usd: number;
+  status: "optimal" | "warning" | "critical";
+  coordinates: [number, number, number];
+}
+
+export interface CubeResponse {
+  nodes: CubeNode[];
+  total_revenue_billion: number;
+}

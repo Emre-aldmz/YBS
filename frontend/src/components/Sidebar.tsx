@@ -10,15 +10,20 @@ import {
   HelpCircle,
   ChevronLeft,
   ChevronRight,
+  Box,
 } from "lucide-react";
 import { useState } from "react";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
 const menuItems = [
-  { icon: LayoutDashboard, label: "Dashboard", active: true },
-  { icon: Gamepad2, label: "PlayStation Satışları", active: false },
-  { icon: Users, label: "PSN Kullanıcıları", active: false },
-  { icon: DollarSign, label: "Gelir Analizi", active: false },
-  { icon: BarChart3, label: "Raporlar", active: false },
+  { icon: LayoutDashboard, label: "Dashboard", href: "/" },
+  { icon: Box, label: "3D OLAP Küpü", href: "/olap-cube" },
+  { icon: Gamepad2, label: "PlayStation Satışları", href: "#" },
+  { icon: Users, label: "PSN Kullanıcıları", href: "#" },
+  { icon: DollarSign, label: "Gelir Analizi", href: "#" },
+  { icon: BarChart3, label: "Raporlar", href: "#" },
 ];
 
 const bottomItems = [
@@ -28,6 +33,8 @@ const bottomItems = [
 
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
+
+  const pathname = usePathname();
 
   return (
     <aside
@@ -60,9 +67,10 @@ export default function Sidebar() {
       {/* Menu */}
       <nav className="flex-1 px-3 py-4 space-y-1">
         {menuItems.map((item) => (
-          <div
+          <Link
             key={item.label}
-            className={`sidebar-item ${item.active ? "active" : ""}`}
+            href={item.href}
+            className={`sidebar-item ${pathname === item.href ? "active" : ""}`}
             title={collapsed ? item.label : undefined}
           >
             <item.icon size={20} className="flex-shrink-0" />
@@ -71,7 +79,7 @@ export default function Sidebar() {
                 {item.label}
               </span>
             )}
-          </div>
+          </Link>
         ))}
       </nav>
 
