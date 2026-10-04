@@ -2,7 +2,6 @@
 
 import { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
-import { motion } from "framer-motion-3d";
 import * as THREE from "three";
 import type { CubeNode } from "@/types";
 
@@ -19,16 +18,29 @@ const STATUS_COLORS = {
 };
 
 export function CubeCell({ node, onHover, delay = 0 }: CubeCellProps) {
+  const groupRef = useRef<THREE.Group>(null);
   const meshRef = useRef<THREE.Mesh>(null);
   const [hovered, setHovered] = useState(false);
 
   const baseColor = STATUS_COLORS[node.status];
   const isCritical = node.status === "critical";
+  const [x, y, z] = node.coordinates;
+  const targetPos = new THREE.Vector3(x, y, z);
 
-  // Pulse effect for critical nodes
-  useFrame(({ clock }) => {
+  useFrame(({ clock }, delta) => {
+    const t = clock.getElapsedTime();
+    
+    // Entrance animation
+    if (groupRef.current) {
+      if (t > delay) {
+        groupRef.current.position.lerp(targetPos, delta * 4.0);
+      } else {
+        groupRef.current.position.set(x * 3, y, z);
+      }
+    }
+
+    // Pulse effect and hover states
     if (isCritical && meshRef.current) {
-      const t = clock.getElapsedTime();
       const scale = 1 + Math.sin(t * 8) * 0.05;
       meshRef.current.scale.set(scale, scale, scale);
       
@@ -38,7 +50,7 @@ export function CubeCell({ node, onHover, delay = 0 }: CubeCellProps) {
         material.emissiveIntensity = intensity;
       }
     } else if (meshRef.current) {
-      meshRef.current.scale.set(1, 1, 1);
+      meshRef.current.scale.lerp(new THREE.Vector3(1, 1, 1), delta * 10);
       const material = meshRef.current.material as THREE.MeshPhysicalMaterial;
       if (material) {
         material.emissiveIntensity = hovered ? 0.4 : 0;
@@ -46,19 +58,8 @@ export function CubeCell({ node, onHover, delay = 0 }: CubeCellProps) {
     }
   });
 
-  const [x, y, z] = node.coordinates;
-
   return (
-    <motion.group
-      initial={{ x: x * 3, y, z }}
-      animate={{ x, y, z }}
-      transition={{
-        duration: 1.2,
-        delay: 0.2 + delay,
-        type: "spring",
-        stiffness: 50,
-      }}
-    >
+    <group ref={groupRef} position={[x * 3, y, z]}>
       <mesh
         ref={meshRef}
         onPointerOver={(e) => {
@@ -91,6 +92,6 @@ export function CubeCell({ node, onHover, delay = 0 }: CubeCellProps) {
           />
         </lineSegments>
       </mesh>
-    </motion.group>
+    </group>
   );
 }
